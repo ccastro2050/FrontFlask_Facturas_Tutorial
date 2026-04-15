@@ -44,4 +44,8 @@ app.register_blueprint(ruta_bp)       # /ruta
 app.register_blueprint(factura_bp)    # /factura
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5300)
+    from waitress import serve
+    print(" * Frontend Flask corriendo en: http://127.0.0.1:5300")
+    print(" * Servidor: Waitress (multi-hilo)")
+    print(" * Presiona Ctrl+C para detener")
+    serve(app, host="127.0.0.1", port=5300, threads=4)

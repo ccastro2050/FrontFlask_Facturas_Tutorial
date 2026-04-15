@@ -277,6 +277,10 @@ El servidor de desarrollo de Flask (`app.run()`) es **mono-hilo** y muy lento. W
 
 En Windows, `localhost` puede causar delays de ~2 segundos por intento de resolucion DNS IPv6. Usar `127.0.0.1` directamente evita este problema.
 
+### ¿Por que se deshabilita IPv6 en api_service.py?
+
+La libreria `requests` de Python en Windows intenta conectar por IPv6 primero. Si el servidor solo escucha en IPv4 (127.0.0.1), cada peticion HTTP tarda ~2 segundos extra mientras IPv6 falla antes de caer a IPv4. La linea `urllib3.util.connection.HAS_IPV6 = False` fuerza IPv4 directo. Ademas se usa `requests.Session()` para reutilizar la conexion TCP entre peticiones (connection pooling), lo que mejora aun mas el rendimiento.
+
 ### ¿Por que el frontend es lento en la primera carga?
 
 Bootstrap se carga desde un CDN externo. La primera vez necesita descargarlo. Despues el navegador lo cachea y es instantaneo.

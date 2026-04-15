@@ -6,7 +6,12 @@ que se reutilizan en todos los Blueprints/rutas.
 """
 
 import requests
+from requests.adapters import HTTPAdapter
 from config import API_BASE_URL
+
+# Forzar IPv4 en Windows (evita delay de 2s por intento de IPv6)
+import urllib3.util.connection
+urllib3.util.connection.HAS_IPV6 = False
 
 
 class ApiService:
@@ -14,6 +19,9 @@ class ApiService:
 
     def __init__(self):
         self.base_url = API_BASE_URL
+        self.session = requests.Session()
+        adapter = HTTPAdapter(pool_connections=5, pool_maxsize=10)
+        self.session.mount("http://", adapter)
 
     # ──────────────────────────────────────────────
     # LISTAR: GET /api/{tabla}
@@ -25,7 +33,7 @@ class ApiService:
             if limite:
                 params['limite'] = limite
 
-            respuesta = requests.get(url, params=params)
+            respuesta = self.session.get(url, params=params)
 
             # La API retorna 204 (sin body) cuando no hay datos
             if respuesta.status_code == 204:
@@ -48,7 +56,7 @@ class ApiService:
             if campos_encriptar:
                 params["campos_encriptar"] = campos_encriptar
 
-            respuesta = requests.post(url, json=datos, params=params)
+            respuesta = self.session.post(url, json=datos, params=params)
             contenido = respuesta.json()
             mensaje = contenido.get("mensaje", "Operacion completada.")
             return (respuesta.ok, mensaje)
@@ -66,7 +74,7 @@ class ApiService:
             if campos_encriptar:
                 params["campos_encriptar"] = campos_encriptar
 
-            respuesta = requests.put(url, json=datos, params=params)
+            respuesta = self.session.put(url, json=datos, params=params)
             contenido = respuesta.json()
             mensaje = contenido.get("mensaje", "Operacion completada.")
             return (respuesta.ok, mensaje)
@@ -80,7 +88,7 @@ class ApiService:
     def eliminar(self, tabla, nombre_clave, valor_clave):
         try:
             url = f"{self.base_url}/api/{tabla}/{nombre_clave}/{valor_clave}"
-            respuesta = requests.delete(url)
+            respuesta = self.session.delete(url)
             contenido = respuesta.json()
             mensaje = contenido.get("mensaje", "Operacion completada.")
             return (respuesta.ok, mensaje)
