@@ -1,5 +1,10 @@
 # Frontend Flask - CRUD Facturas Tutorial
 
+```bash
+git clone https://github.com/ccastro2050/ApiGenericaFastApi_Crud.git
+git clone https://github.com/ccastro2050/FrontFlask_Facturas_Tutorial.git
+```
+
 <p align="center">
   <img src="https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white" alt="Flask">
   <img src="https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white" alt="Bootstrap">
