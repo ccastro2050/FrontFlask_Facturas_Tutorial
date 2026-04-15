@@ -1,0 +1,36 @@
+# ─────────────────────────────────────────────────────────────
+# requirements.txt — Dependencias del proyecto frontend.
+#
+# Para instalar todas las dependencias de una vez:
+#   pip install -r requirements.txt
+#
+# ¿Por qué solo 2 librerías?
+# Este proyecto es un FRONTEND (interfaz visual). Solo necesita:
+# 1. Un framework web para mostrar páginas HTML (Flask)
+# 2. Una librería para comunicarse con la API backend (requests)
+# ─────────────────────────────────────────────────────────────
+
+# ─── Flask ──────────────────────────────────────────────────
+# Flask es un framework web "micro" para Python.
+# "Micro" significa que es ligero y simple, no que sea limitado.
+# Flask se encarga de:
+#   - Recibir peticiones del navegador (cuando el usuario visita una URL)
+#   - Ejecutar la función Python asociada a esa URL
+#   - Devolver una página HTML al navegador
+# Es como un "cartero": recibe la carta (petición), la lleva al
+# destinatario (tu código Python) y devuelve la respuesta (HTML).
+# ─────────────────────────────────────────────────────────────
+Flask==3.1.0
+
+# ─── Requests ───────────────────────────────────────────────
+# Requests es una librería para hacer peticiones HTTP desde Python.
+# La usamos para comunicarnos con la API backend (FastAPI).
+# Ejemplo: requests.get("http://localhost:8000/api/producto/")
+#   → Le pide a la API la lista de productos
+#   → La API responde con un JSON
+#   → Requests convierte ese JSON a un diccionario Python
+# Es como un "teléfono": nuestro frontend llama a la API y
+# recibe la información que necesita para mostrar en pantalla.
+# ─────────────────────────────────────────────────────────────
+requests==2.32.3
+waitress==3.0.2
